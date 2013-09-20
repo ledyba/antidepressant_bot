@@ -34,20 +34,22 @@ object Client {
 }
 
 class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with StatusListener  {
-	
+	val myId = tw.getId();
 	override def onStatus(status:Status) = {
-		val scr = status.getUser().getScreenName();
-		val max = 10;
-		val r = new Random().nextInt(max);
-		val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
-		if(r == 0){
-			System.out.println("[○ "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
-			reply(msg, status);
-		}else if(!(status.getText().indexOf("つらい") >= 0)){
-			System.out.println("[特 "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
-			reply(msg, status);
-		}else{
-			System.out.println("[× "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
+		if( status.getInReplyToStatusId() > 0) {
+			val scr = status.getUser().getScreenName();
+			val max = 10;
+			val r = new Random().nextInt(max);
+			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
+			if(r == 0){
+				System.out.println("[○ "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
+				reply(msg, status);
+			}else if(!(status.getText().indexOf("つらい") >= 0)){
+				System.out.println("[特 "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
+				reply(msg, status);
+			}else{
+				System.out.println("[× "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
+			}
 		}
 	}
 	override def updatedStatus(status:Status):Unit = {
