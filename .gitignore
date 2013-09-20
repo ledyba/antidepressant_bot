@@ -1,2 +1,6 @@
 *.class
 target/
+src/main/scala/org/ledyba/utsu/Const.scala
+.cache
+.project
+.classpath

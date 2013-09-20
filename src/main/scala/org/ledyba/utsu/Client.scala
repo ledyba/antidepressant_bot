@@ -19,7 +19,7 @@ object Client {
 		val stream = new TwitterStreamFactory(conf).getInstance();
 		return new Client(tw, stream);
 	}
-	val Keywords = Array[String]("鬱だ","死にた","自殺","辛い");
+	val Keywords = Array[String]("鬱だ","死にた","自殺", "陰鬱", "生きていたくな", "鬱死", "欝打");
 }
 
 class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with StatusListener  {
@@ -27,7 +27,7 @@ class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with 
 	override def onStatus(status:Status) = {
 		val scr = status.getUser().getScreenName();
 		System.out.println("Status:("+ status.getId() +") by " + scr + " " + status.getText());
-		val r = new Random().nextInt(10);
+		val r = new Random().nextInt(3);
 		if(r == 0){
 			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
 			println("送信: "+msg);
