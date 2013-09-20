@@ -27,7 +27,7 @@ class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with 
 	override def onStatus(status:Status) = {
 		val scr = status.getUser().getScreenName();
 		System.out.println("Status:("+ status.getId() +") by " + scr + " " + status.getText());
-		val r = new Random().nextInt(3);
+		val r = new Random().nextInt(1);
 		if(r == 0){
 			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
 			println("送信: "+msg);
