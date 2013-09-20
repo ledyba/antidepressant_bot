@@ -39,18 +39,20 @@ class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with 
 		val scr = status.getUser().getScreenName();
 		val max = 10;
 		val r = new Random().nextInt(max);
-		if(r == 0 || !(status.getText().indexOf("つらい") >= 0)){
-			System.out.println("[○ "+r+"/"+max+"] Status:("+ status.getId() +") by " + scr + " " + status.getText());
-			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
-			println("送信: "+msg);
+		val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
+		if(r == 0){
+			System.out.println("[○ "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
+			reply(msg, status);
+		}else if(!(status.getText().indexOf("つらい") >= 0)){
+			System.out.println("[特 "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
 			reply(msg, status);
 		}else{
-			System.out.println("[× "+r+"/"+max+"] Status:("+ status.getId() +") by " + scr + " " + status.getText());
+			System.out.println("[× "+r+"/"+max+"] ("+ status.getId() +" by " + scr + ") " + status.getText());
 		}
 	}
 	override def updatedStatus(status:Status):Unit = {
 		val scr = status.getUser().getScreenName();
-		System.out.println("[Sent] :("+ status.getId() +") by " + scr + " " + status.getText());
+		System.out.println("[Sent] ("+ status.getId() +" by " + scr + ") " + status.getText());
 	}
 	
 	def reply(msg:String, replyTo:Status):Unit = {
