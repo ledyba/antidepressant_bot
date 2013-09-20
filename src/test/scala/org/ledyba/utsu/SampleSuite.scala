@@ -1,4 +1,4 @@
-package sample
+package org.ledyba.utsu
 
 import org.scalatest.junit.AssertionsForJUnit
 import scala.collection.mutable.ListBuffer
