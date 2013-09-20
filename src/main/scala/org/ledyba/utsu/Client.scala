@@ -19,7 +19,7 @@ object Client {
 		val stream = new TwitterStreamFactory(conf).getInstance();
 		return new Client(tw, stream);
 	}
-	val Keywords = Array[String]("鬱だ","死にた","自殺", "陰鬱", "生きていたくな", "鬱死", "欝打");
+	val Keywords = Array[String]("鬱だ","死にた","自殺", "陰鬱", "生きていたくな", "鬱死", "欝打", "つらい");
 }
 
 class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with StatusListener  {
