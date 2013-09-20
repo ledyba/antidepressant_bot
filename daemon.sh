@@ -1,4 +1,4 @@
 #!/bin/bash
 
-nohup sbt run 2>&1 > /dev/null &
+nohup sbt run 2>&1 > log.txt &
 
