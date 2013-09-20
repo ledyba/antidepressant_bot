@@ -19,25 +19,38 @@ object Client {
 		val stream = new TwitterStreamFactory(conf).getInstance();
 		return new Client(tw, stream);
 	}
-	val Keywords = Array[String]("鬱だ","死にた","自殺", "陰鬱", "生きていたくな", "鬱死", "欝打", "つらい");
+	val Keywords = Array[String](
+			"鬱だ",
+			"死にた",
+			"自殺",
+			"陰鬱",
+			"生きていたくな",
+			"鬱死",
+			"欝打",
+			"つらい",
+			"首吊",
+			"消えたい",
+			"人生に絶望");
 }
 
 class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with StatusListener  {
 	
 	override def onStatus(status:Status) = {
 		val scr = status.getUser().getScreenName();
-		System.out.println("Status:("+ status.getId() +") by " + scr + " " + status.getText());
-		val r = new Random().nextInt(1);
-		if(r == 0){
+		val max = 10;
+		val r = new Random().nextInt(max);
+		if(r == 0 || !(status.getText().indexOf("つらい") >= 0)){
+			System.out.println("[○ "+r+"/"+max+"] Status:("+ status.getId() +") by " + scr + " " + status.getText());
 			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
 			println("送信: "+msg);
 			reply(msg, status);
 		}else{
-			println("ランダムに引っかからなかった: "+r);
+			System.out.println("[× "+r+"/"+max+"] Status:("+ status.getId() +") by " + scr + " " + status.getText());
 		}
 	}
 	override def updatedStatus(status:Status):Unit = {
-		println("Updated: "+status.toString());
+		val scr = status.getUser().getScreenName();
+		System.out.println("[Sent] :("+ status.getId() +") by " + scr + " " + status.getText());
 	}
 	
 	def reply(msg:String, replyTo:Status):Unit = {
