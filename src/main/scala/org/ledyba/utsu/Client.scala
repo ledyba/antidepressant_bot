@@ -27,12 +27,13 @@ class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with 
 	override def onStatus(status:Status) = {
 		val scr = status.getUser().getScreenName();
 		System.out.println("Status:("+ status.getId() +") by " + scr + " " + status.getText());
-		if(new Random().nextInt(10) == 0){
+		val r = new Random().nextInt(10);
+		if(r == 0){
 			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
 			println("送信: "+msg);
 			reply(msg, status);
 		}else{
-			println("ランダムに引っかからなかった");
+			println("ランダムに引っかからなかった: "+r);
 		}
 	}
 	override def updatedStatus(status:Status):Unit = {
