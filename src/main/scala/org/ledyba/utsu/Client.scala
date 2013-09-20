@@ -21,6 +21,7 @@ object Client {
 	}
 	val Keywords = Array[String](
 			"鬱だ",
+			"鬱に",
 			"死にた",
 			"自殺",
 			"陰鬱",
