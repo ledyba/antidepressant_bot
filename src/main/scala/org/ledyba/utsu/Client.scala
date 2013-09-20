@@ -3,20 +3,17 @@ import twitter4j._
 import twitter4j.conf.ConfigurationBuilder
 import scala.collection.JavaConverters._
 import twitter4j.TwitterAdapter
+import scala.util.Random
 
 object Client {
-	private val CONSUMER_KEY="";
-	private val CONSUMER_SECRET =  "";
-	private val ACCESS_TOKEN="";
-	private val ACCESS_TOKEN_SECRET="";
 	def create():Client={
 		val cb = new ConfigurationBuilder;
 		val conf = cb
 		.setAsyncNumThreads(3)
-		.setOAuthConsumerKey(CONSUMER_KEY)
-		.setOAuthConsumerSecret(CONSUMER_SECRET)
-		.setOAuthAccessToken(ACCESS_TOKEN)
-		.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET)
+		.setOAuthConsumerKey(Const.CONSUMER_KEY)
+		.setOAuthConsumerSecret(Const.CONSUMER_SECRET)
+		.setOAuthAccessToken(Const.ACCESS_TOKEN)
+		.setOAuthAccessTokenSecret(Const.ACCESS_TOKEN_SECRET)
 		.build();
 		val tw = new AsyncTwitterFactory(conf).getInstance();
 		val stream = new TwitterStreamFactory(conf).getInstance();
@@ -30,7 +27,13 @@ class Client(tw:AsyncTwitter, stream:TwitterStream) extends TwitterAdapter with 
 	override def onStatus(status:Status) = {
 		val scr = status.getUser().getScreenName();
 		System.out.println("Status:("+ status.getId() +") by " + scr + " " + status.getText());
-		reply("@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？", status);
+		if(new Random().nextInt(10) == 0){
+			val msg = "@"+scr+" 大丈夫？抗うつ薬飲み忘れてない？";
+			println("送信: "+msg);
+			reply(msg, status);
+		}else{
+			println("ランダムに引っかからなかった");
+		}
 	}
 	override def updatedStatus(status:Status):Unit = {
 		println("Updated: "+status.toString());
